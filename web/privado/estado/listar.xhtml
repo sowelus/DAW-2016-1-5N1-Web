@@ -10,9 +10,42 @@
         <ui:define name="conteudo">
             <h:form>
                 <p:messages/>
-                <p:growl/>
+                <p:growl id="growl"/>
                 <p:commandButton value="Novo" action="#{controleEstado.novo()}" ajax="false"/>
-                <p:dataTable value="#{controleEstado.dao.lista}" var="obj">
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu value="#{controleEstado.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro:"/>
+                        <p:inputText value="#{controleEstado.dao.filtro}">
+                            <p:ajax event="blur" update="listagem growl"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem growl"/>
+                        <p:outputLabel value="Máximo de objetos:"/>
+                        <p:inputText value="#{controleEstado.dao.maximoObjetos}" size="3">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Primeiro" actionListener="#{controleEstado.dao.primeiro()}"
+                                         update="listagem"/>
+                        <p:commandButton value="Anterior" actionListener="#{controleEstado.dao.anterior()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Proximo" actionListener="#{controleEstado.dao.proximo()}"
+                                         update="listagem"/>                        
+                        <p:commandButton value="Ultimo" actionListener="#{controleEstado.dao.ultimo()}"
+                                         update="listagem"/>                        
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleEstado.dao.listaObjetos}" var="obj"
+                             id="listagem">
+                    <f:facet name="footer">
+                        <div align="center">
+                            <p:outputLabel value="#{controleEstado.dao.mensagemNavegacao}"/>
+                        </div>
+                    </f:facet>
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>
