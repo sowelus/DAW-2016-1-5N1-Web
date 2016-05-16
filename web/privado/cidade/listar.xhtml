@@ -11,7 +11,7 @@
             <h:form id="formListagem">
                 <p:messages/>
                 <p:growl id="growl"/>
-                <p:commandButton value="Novo" actionListener="#{controleCidade.novo()}"
+                <p:commandButton value="Novo" actionListener="#{controleCidade.novo()}" icon="ui-icon-document"
                                  oncomplete="PF('dlg').show();" update=":formEdicao"/>
                 <div align="center">
                     <p:panelGrid columns="11">
@@ -26,19 +26,20 @@
                         <p:inputText value="#{controleCidade.dao.filtro}">
                             <p:ajax event="blur" update="listagem growl"/>
                         </p:inputText>
-                        <p:commandButton value="Filtrar" update="listagem growl"/>
+                        <p:commandButton value="Filtrar" update="listagem growl"
+                                         icon="ui-icon-search"/>
                         <p:outputLabel value="Máximo de objetos:"/>
                         <p:inputText value="#{controleCidade.dao.maximoObjetos}" size="3">
                             <p:ajax event="keyup" update="listagem"/>
                         </p:inputText>
                         <p:commandButton value="Primeiro" actionListener="#{controleCidade.dao.primeiro()}"
-                                         update="listagem"/>
+                                         update="listagem" icon="ui-icon-seek-first"/>
                         <p:commandButton value="Anterior" actionListener="#{controleCidade.dao.anterior()}"
-                                         update="listagem"/>                        
+                                         update="listagem" icon="ui-icon-seek-prev"/>                        
                         <p:commandButton value="Proximo" actionListener="#{controleCidade.dao.proximo()}"
-                                         update="listagem"/>                        
+                                         update="listagem" icon="ui-icon-seek-next"/>                        
                         <p:commandButton value="Ultimo" actionListener="#{controleCidade.dao.ultimo()}"
-                                         update="listagem"/>                        
+                                         update="listagem" icon="ui-icon-seek-end"/>                        
                     </p:panelGrid>
                 </div>
                 <p:dataTable value="#{controleCidade.dao.listaObjetos}" var="obj"
@@ -57,18 +58,20 @@
                     <p:column headerText="Estado">              
                         <p:outputLabel value="#{obj.estado.nome}"/>
                     </p:column>
-                    <p:column headerText="Alterar">
-                        <p:commandLink value="Alterar" 
-                                       actionListener="#{controleCidade.editar(obj.id)}" 
-                                       oncomplete="PF('dlg').show();" update=":formEdicao"/>
-                    </p:column>    
-                    <p:column headerText="Remover">
-                        <p:commandLink value="Remover" 
-                                       actionListener="#{controleCidade.remover(obj.id)}"
-                                       onclick="if (!confirm('Confirma a exclusão'))
-                                                   return false" update="@form"
-                                       process="@form"/>
-                    </p:column>                    
+                    <p:column headerText="Ações">
+                        <div align="center">
+                            <p:commandButton  icon="ui-icon-pencil" id="btnEditar"
+                                              actionListener="#{controleCidade.editar(obj.id)}" 
+                                              oncomplete="PF('dlg').show();" update=":formEdicao"/>
+                            <p:commandButton   icon="ui-icon-trash" id="btnExcluir"
+                                               actionListener="#{controleCidade.remover(obj.id)}"
+                                               onclick="if (!confirm('Confirma a exclusão'))
+                                                           return false" update="@form"
+                                               process="@form"/>       
+                            <p:tooltip for="btnEditar" value="Editar"/>
+                            <p:tooltip for="btnExcluir" value="Excluir"/>
+                        </div>
+                    </p:column>                   
                 </p:dataTable>
             </h:form>            
         </ui:define>
@@ -80,7 +83,7 @@
                         <p:panelGrid columns="2">
                             <f:facet name="footer">
                                 <div align="center">
-                                    <p:commandButton value="Salvar"
+                                    <p:commandButton value="Salvar" icon="ui-icon-disk"
                                                      actionListener="#{controleCidade.salvar()}"
                                                      oncomplete="if(!args.validationFailed){PF('dlg').hide();}"
                                                      update=":formEdicao :formListagem"/>
