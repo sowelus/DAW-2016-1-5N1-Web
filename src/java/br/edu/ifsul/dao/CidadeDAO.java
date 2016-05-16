@@ -1,7 +1,7 @@
 
 package br.edu.ifsul.dao;
 
-import br.edu.ifsul.modelo.Estado;
+import br.edu.ifsul.modelo.Cidade;
 import java.io.Serializable;
 
 /**
@@ -9,11 +9,11 @@ import java.io.Serializable;
  * @author Jorge Luis Boeira Bavaresco
  * @email jorge.bavaresco@passofundo.ifsul.edu.br
  */
-public class EstadoDAO<T> extends DAOGenerico<Estado>implements Serializable {
+public class CidadeDAO<T> extends DAOGenerico<Cidade>implements Serializable {
 
-    public EstadoDAO(){
+    public CidadeDAO(){
         super();
-        super.setClassePersistente(Estado.class);
+        super.setClassePersistente(Cidade.class);
         super.setOrdem("nome");// ordem padrão
     }
 

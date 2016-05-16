@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
  */
 public class DAOGenerico<T> implements Serializable {
     private List<T> listaObjetos;
+    private List<T> listaTodos;
     private EntityManager em;
     private Class classePersistente;
     private String mensagem = "";
@@ -85,6 +86,7 @@ public class DAOGenerico<T> implements Serializable {
     public List<T> getListaObjetos() {
         String jpql = "from "+classePersistente.getSimpleName();
         String where = "";
+        filtro = protegeFiltro(filtro);
         if (filtro.length() > 0){
             if (ordem.equals("id")){
                 try {
@@ -106,6 +108,11 @@ public class DAOGenerico<T> implements Serializable {
         return em.createQuery(jpql).setFirstResult(posicaoAtual).
                 setMaxResults(maximoObjetos).getResultList();
     }
+    
+    public List<T> getListaTodos() {
+        String jpql = "from "+classePersistente.getSimpleName()+" order by "+ordem;
+        return em.createQuery(jpql).getResultList();
+    }    
     
     public void primeiro(){
         posicaoAtual = 0;
@@ -144,6 +151,11 @@ public class DAOGenerico<T> implements Serializable {
         }
         return "Listagem de "+(posicaoAtual +1)+
                 " até "+ate+ " de "+totalObjetos + " registros";
+    }
+    
+    public String protegeFiltro(String filtro){
+        filtro = filtro.replaceAll("[';-]", "");
+        return filtro;
     }
 
     public EntityManager getEm() {
@@ -208,5 +220,11 @@ public class DAOGenerico<T> implements Serializable {
 
     public void setTotalObjetos(Integer totalObjetos) {
         this.totalObjetos = totalObjetos;
+    }
+
+
+
+    public void setListaTodos(List<T> listaTodos) {
+        this.listaTodos = listaTodos;
     }
 }
